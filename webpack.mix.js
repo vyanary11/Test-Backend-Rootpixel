@@ -6,12 +6,25 @@ const mix = require('laravel-mix');
  |--------------------------------------------------------------------------
  |
  | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the CSS
+ | for your Laravel application. By default, we are compiling the Sass
  | file for the application as well as bundling up all the JS files.
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix.postCss('resources/css/dashboard/app.css', 'public/css/dashboard')
+    // Dashboard Page User
+    .postCss('resources/css/dashboard/user/user.css', 'public/css/dashboard/user')
+    .js('resources/js/dashboard/user/user.js', 'public/js/dashboard/user')
+    // Dashboard Page Blog
+    .postCss('resources/css/dashboard/blog/blog.css', 'public/css/dashboard/blog')
+    .js('resources/js/dashboard/blog/blog.js', 'public/js/dashboard/blog')
+
+    .js('resources/js/dashboard/dashboard.js', 'public/js/dashboard')
+    .js('resources/js/frontend/app.js', 'public/js/frontend')
+    .js('resources/js/dashboard/app.js', 'public/js/dashboard')
+    .postCss("resources/css/frontend/app.css", "public/css/frontend", [
+        require("tailwindcss"),
+    ]).extract();
+
+
+mix.version();

@@ -1,0 +1,92 @@
+@import "~bootstrap";
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+@import './stisla/css/style.css';
+@import './stisla/css/components.css';
+
+.container-upload-file{
+    height: 350px;
+    width: 430px;
+    position: relative;
+}
+.container-upload-file .wrapper-upload-file{
+    position: relative;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.wrapper-upload-file.active{
+    border: none;
+}
+.wrapper-upload-file .image-upload-file{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wrapper-upload-file img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.wrapper-upload-file .icon-upload-file{
+    font-size: 100px;
+    color: #9658fe;
+}
+.wrapper-upload-file .text-upload-file{
+    font-size: 20px;
+    font-weight: 500;
+    color: #5B5B7B;
+}
+.wrapper-upload-file #cancel-btn-upload-file i{
+    position: absolute;
+    font-size: 20px;
+    right: 15px;
+    top: 15px;
+    color: #9658fe;
+    cursor: pointer;
+    display: none;
+}
+.wrapper-upload-file.active:hover #cancel-btn-upload-file i{
+    display: block;
+}
+.wrapper-upload-file #cancel-btn-upload-file i:hover{
+    color: #e74c3c;
+}
+.wrapper-upload-file .file-name-upload-file{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 18px;
+    color: #fff;
+    display: none;
+    background: linear-gradient(135deg,#3a8ffe 0%,#9658fe 100%);
+}
+.wrapper-upload-file.active:hover .file-name-upload-file{
+    display: block;
+}
+.container-upload-file #custom-btn-upload-file{
+    margin-top: 30px;
+    display: block;
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg,#3a8ffe 0%,#9658fe 100%);
+}
