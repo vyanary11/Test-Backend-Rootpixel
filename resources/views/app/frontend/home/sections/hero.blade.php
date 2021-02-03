@@ -1,5 +1,5 @@
 <section class="mt-10 pt-5" id="top">
-    <div class="md:min-h-screen sm:min-h-0 relative bg-pink-700 mx-auto flex flex-col items-center pt-10 sm:pt-20 pb-24 sm:pb-32 md:pb-48 lg:pb-56 xl:pb-64">
+    <div class="md:min-h-screen sm:min-h-0 relative bg-blue-700 mx-auto flex flex-col items-center pt-10 sm:pt-20 pb-24 sm:pb-32 md:pb-48 lg:pb-56 xl:pb-64">
         <svg class="mr-2 lg:mr-12 mt-2 lg:mt-12 absolute right-0 top-0" width="104px" height="95px" viewBox="0 0 104 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="Work-in-Progress" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.122837612">
                 <g transform="translate(-1139.000000, -175.000000)" fill="#FFFFFF">
@@ -92,18 +92,17 @@
         </svg>
         <div class="w-9/12 sm:w-2/3 mb-2 sm:mb-7 mt-16">
             <h1 class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center text-white font-bold leading-tight">
-                Buat kenanganmu bersama kami
+                Make your day better
             </h1>
-            <p class="text-center text-white">vdvdv</p>
+            <p class="text-center text-white">Reading is a bride to the life</p>
         </div>
         <div class="flex justify-center items-center">
-            <a href="" class="bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-pink-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Daftar</a>
-            <button class="ml-3 sm:ml-6 bg-transparent transition duration-150 ease-in-out focus:outline-none hover:bg-pink-700-800 rounded border border-white text-white px-4 sm:px-8 py-1 sm:py-3 text-sm">Lihat Video</button>
+            <a href="{{route('frontend.blog')}}" class="bg-white transition duration-150 ease-in-out focus:outline-none hover:bg-gray-100 rounded text-blue-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Read Blog</a>
         </div>
     </div>
     <div class="container mx-auto flex justify-center">
         <div class="relative 2xl:w-8/12 lg:w-2/3 md:w-11/12 lg:-mt-80 md:-mt-96 -mt-20">
-            <img src="https://tuk-cdn.s3.amazonaws.com/assets/components/hero/h_2.png" alt="" class="absolute">
+            <img src="{{asset('/storage/hero.png')}}" alt="" class="absolute">
         </div>
     </div>
 </section>

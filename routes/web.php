@@ -13,16 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('landing.home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('frontend.home');
 
 Route::group(['prefix' => 'blog'], function () {
-    Route::get('/', [App\Http\Controllers\BlogController::class, 'index'])->name('landing.blog');
-    Route::get('/{slug}.html', [App\Http\Controllers\BlogController::class, 'show'])->name('landing.single-blog');
+    Route::get('/', [App\Http\Controllers\BlogController::class, 'index'])->name('frontend.blog');
+    Route::get('/blog/{slug}.html', [App\Http\Controllers\BlogController::class, 'show'])->name('frontend.single-blog');
 });
-
-Route::group(['prefix' => 'desain'], function () {
-    Route::get('/', [App\Http\Controllers\DesignController::class, 'index'])->name('landing.desain');
-    Route::get('/{slug}.html', [App\Http\Controllers\DesignController::class, 'show'])->name('landing.single-desain');
-});
-
-Route::get('/pages/{slug}.html', [App\Http\Controllers\HomeController::class, 'pages'])->name('landing.pages');

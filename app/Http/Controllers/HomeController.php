@@ -5,10 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Models\Feature;
-use App\Models\Package;
-use App\Models\Testimonial;
-use App\Models\Theme;
+use App\Models\Blog;
 
 class HomeController extends Controller
 {
@@ -28,19 +25,9 @@ class HomeController extends Controller
     public function index()
     {
         $data = array(
-            'features'      => Feature::get(),
-            'packages'      => Package::take(3)->get(),
-            'testimonials'  => Testimonial::get(),
-            'themes'        => Theme::take(9)->get()
+            'blogs' => Blog::take(6)->get(),
         );
         return view('app.frontend.home.index', $data);
     }
 
-    public function pages($slug)
-    {
-        $data = array(
-            '' => '',
-        );
-        return view('app.frontend.home.index', $data);
-    }
 }

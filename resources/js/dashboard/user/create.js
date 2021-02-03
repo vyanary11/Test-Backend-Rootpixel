@@ -1,9 +1,3 @@
-require('summernote');
-require('selectric');
-require('bootstrap-tagsinput');
-
-$(".inputtags").tagsinput('items');
-
 window.readURL = function(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

@@ -1,11 +1,14 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'Users')
+@section('title', 'List User')
 
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
+            <div class="card-header">
+                <a href="{{route("dashboard.user.create")}}" class="btn btn-primary">Create User</a>
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped" id="data-table">

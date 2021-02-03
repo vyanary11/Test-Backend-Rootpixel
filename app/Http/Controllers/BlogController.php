@@ -14,8 +14,16 @@ class BlogController extends Controller
      */
     public function index()
     {
+        if(request()->tags!=""){
+            $blog = Blog::paginate(9);
+        }else if(request()->search!=""){
+            $blog = Blog::paginate(9);
+        }else{
+            $blog = Blog::paginate(9);
+        }
+
         $data = array(
-            'blogs' => Blog::with('admin')->paginate(9),
+            'blogs' => $blog,
         );
         return view('app.frontend.blog.index', $data);
     }
@@ -31,8 +39,8 @@ class BlogController extends Controller
         $blog = Blog::where('slug', $slug)->firstorfail();
         $data = array(
             'blog'          => $blog,
-            'previous_blog' => Blog::where('created_at', '<', $blog->created_at)->where('id','!=',$blog->id)->where('admin_id', $blog->admin_id),
-            'next_blog'     => Blog::where('created_at', '>', $blog->created_at)->where('id','!=',$blog->id)->where('admin_id', $blog->admin_id)
+            'previous_blog' => Blog::where('created_at', '<', $blog->created_at)->where('id','!=',$blog->id)->where('user_id', $blog->admin_id),
+            'next_blog'     => Blog::where('created_at', '>', $blog->created_at)->where('id','!=',$blog->id)->where('user_id', $blog->admin_id)
         );
         return view('app.frontend.blog.post', $data);
     }

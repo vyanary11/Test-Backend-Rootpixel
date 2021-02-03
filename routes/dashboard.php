@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth:dashboard']], function () {
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('dashboard.user');
-        Route::get('/update/{id}', [UserController::class, 'show'])->middleware('ajax');
+        Route::get('/update/{id}', [UserController::class, 'show'])->name('dashboard.user.update-show');
         Route::post('/update/{id}', [UserController::class, 'update'])->name('dashboard.user.update');
+        Route::get('/create', [UserController::class, 'create'])->name('dashboard.user.create');
         Route::post('/store', [UserController::class, 'store'])->name('dashboard.user.store');
         Route::delete('/delete', [UserController::class, 'delete'])->middleware('ajax');
         Route::get('/data_table_server_side', [UserController::class, 'data_table_server_side'])->middleware('ajax');

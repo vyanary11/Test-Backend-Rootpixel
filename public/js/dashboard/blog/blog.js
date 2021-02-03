@@ -69,6 +69,7 @@ var dataTable = $('#data-table').DataTable({
   processing: true,
   serverSide: true,
   responsive: true,
+  order: [[3, "desc"]],
   ajax: {
     url: "/dashboard/blog/data_table_server_side",
     data: function data(d) {

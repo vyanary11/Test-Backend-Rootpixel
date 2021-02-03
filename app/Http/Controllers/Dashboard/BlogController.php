@@ -102,7 +102,7 @@ class BlogController extends Controller
     {
         $data = [
             'edit'  => true,
-            'blog'  => Blog::find($id)->first()
+            'blog'  => Blog::where('id',$id)->first()
         ];
         return view('app.dashboard.blog.form', $data);
     }
@@ -113,14 +113,15 @@ class BlogController extends Controller
             'thumbnail' => 'mimes:jpeg,png,jpg,gif|max:5052',
         ]);
         $extension = $request->thumbnail->extension();
-        $request->thumbnail->storeAs('/public/upload/blog', Str::random(10).".".$extension);
+        $filename = Str::random(10).".".$extension;
+        $request->thumbnail->storeAs('/public/upload/blog', $filename);
         $blog = Blog::create([
-            'user_id'   => Auth::guard('dashboard')->user()->id,
+            'user_id'   => Auth::user()->id,
             'title'     => $request->title,
             'tags'      => $request->tags,
             'slug'      => Str::slug($request->title),
             'content'   => $request->content,
-            'thumbnail' => Str::random(10).".".$extension,
+            'thumbnail' => $filename,
             'status'    => $request->status
         ]);
         if($blog){
@@ -144,7 +145,9 @@ class BlogController extends Controller
                 'thumbnail' => 'mimes:jpeg,png,jpg,gif|max:5052',
             ]);
             $extension = $request->thumbnail->extension();
-            $request->thumbnail->storeAs('/public/upload/blog', Str::random(10).".".$extension);
+            $filename = Str::random(10).".".$extension;
+            $request->thumbnail->storeAs('/public/upload/blog', $filename);
+            $blog->thumbnail = $filename;
         }
         if($blog->save()){
             return redirect(route('dashboard.blog'))->with('message', [

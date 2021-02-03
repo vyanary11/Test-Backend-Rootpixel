@@ -1,8 +1,8 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["/js/dashboard/blog/create"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["/js/dashboard/blog/update"],{
 
-/***/ "./resources/js/dashboard/blog/create.js":
+/***/ "./resources/js/dashboard/blog/update.js":
 /*!***********************************************!*\
-  !*** ./resources/js/dashboard/blog/create.js ***!
+  !*** ./resources/js/dashboard/blog/update.js ***!
   \***********************************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -29,4 +29,4 @@ window.readURL = function (input) {
 /***/ })
 
 },
-0,[["./resources/js/dashboard/blog/create.js","/js/dashboard/manifest","/js/dashboard/vendor"]]]);
+0,[["./resources/js/dashboard/blog/update.js","/js/dashboard/manifest","/js/dashboard/vendor"]]]);

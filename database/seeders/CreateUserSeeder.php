@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Admin;
-use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 
 class CreateUserSeeder extends Seeder
@@ -18,10 +16,11 @@ class CreateUserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'first_name'    => 'Admin',
-            'last_name'     => 'Root Pixel',
-            'email'         => 'admin@rootpixel.com',
-            'password'      => Hash::make("123456"),
+            'first_name'        => 'Admin',
+            'last_name'         => 'Root Pixel',
+            'email'             => 'admin@rootpixel.com',
+            'password'          => Hash::make("123456"),
+            'profile_picture'   => "default.jpg"
         ]);
     }
 }
