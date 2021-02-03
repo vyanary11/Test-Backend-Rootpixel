@@ -135,11 +135,6 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blog                = Blog::findOrFail($id);
-        $blog->title         = $request->title;
-        $blog->tags          = $request->tags;
-        $blog->slug          = Str::slug($request->title);
-        $blog->content       = $request->content;
-        $blog->status        = $request->status;
         if($request->thumbnail!=null){
             $request->validate([
                 'thumbnail' => 'mimes:jpeg,png,jpg,gif|max:5052',
@@ -149,6 +144,12 @@ class BlogController extends Controller
             $request->thumbnail->storeAs('/public/upload/blog', $filename);
             $blog->thumbnail = $filename;
         }
+        $blog->title         = $request->title;
+        $blog->tags          = $request->tags;
+        $blog->slug          = Str::slug($request->title);
+        $blog->content       = $request->content;
+        $blog->status        = $request->status;
+
         if($blog->save()){
             return redirect(route('dashboard.blog'))->with('message', [
                 'status'    => 'success',

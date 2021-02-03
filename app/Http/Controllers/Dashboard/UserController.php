@@ -87,14 +87,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
         if($request->profile_picture!=null){
+            $request->validate([
+                'profile_picture' => 'mimes:jpeg,png,jpg,gif|max:5052',
+            ]);
             $extension = $request->profile_picture->extension();
             $filename = Str::random(10).".".$extension;
             $request->profile_picture->storeAs('/public/upload/user', $filename);
             $user->profile_picture=$filename;
         }
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         if($user->save()){
             return redirect(route('dashboard.user'))->with('message', [
                 'status'    => 'success',
