@@ -1,13 +1,15 @@
 {
-    "/js/dashboard/user/user.js": "/js/dashboard/user/user.js?id=df5b287f5e83cd23c843",
-    "/js/dashboard/blog/blog.js": "/js/dashboard/blog/blog.js?id=1656c8f342933182292e",
-    "/js/dashboard/dashboard.js": "/js/dashboard/dashboard.js?id=855ef6dbcb512969674d",
+    "/js/dashboard/user/user.js": "/js/dashboard/user/user.js?id=173a877fab8ba49d13ee",
+    "/js/dashboard/blog/blog.js": "/js/dashboard/blog/blog.js?id=db14ef5ee064e6e57d91",
+    "/js/dashboard/blog/create.js": "/js/dashboard/blog/create.js?id=ada7c24a56de1d45084a",
+    "/js/dashboard/dashboard.js": "/js/dashboard/dashboard.js?id=e28f45a446f886796263",
     "/js/frontend/app.js": "/js/frontend/app.js?id=872f00d32aeeb406b01d",
     "/js/dashboard/app.js": "/js/dashboard/app.js?id=bcce58fd87a0f0ca96aa",
     "/js/dashboard/manifest.js": "/js/dashboard/manifest.js?id=3538cbc9391f0732ccff",
     "/css/dashboard/app.css": "/css/dashboard/app.css?id=dc366c4f41a1554b7370",
     "/css/frontend/app.css": "/css/frontend/app.css?id=bff26298b86e9809a061",
-    "/css/dashboard/blog/blog.css": "/css/dashboard/blog/blog.css?id=698a648a8ddd203759a3",
+    "/css/dashboard/blog/create.css": "/css/dashboard/blog/create.css?id=5e5c144c6ae0ef9a361a",
+    "/css/dashboard/blog/blog.css": "/css/dashboard/blog/blog.css?id=3bee001c4cb104a79e0d",
     "/css/dashboard/user/user.css": "/css/dashboard/user/user.css?id=698a648a8ddd203759a3",
-    "/js/dashboard/vendor.js": "/js/dashboard/vendor.js?id=68932305d3188039e443"
+    "/js/dashboard/vendor.js": "/js/dashboard/vendor.js?id=69512324741a25158bfd"
 }

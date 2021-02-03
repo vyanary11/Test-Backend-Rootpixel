@@ -5,23 +5,23 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
-use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-class BlogController extends Controller
+class UserController extends Controller
 {
     public function data_table_server_side()
     {
         if(request()->status==null){
-            $data = Blog::get();
+            $data = User::get();
         }else{
-            $data = Blog::where('status', request()->status)->get();
+            $data = User::where('status', request()->status)->get();
         }
         return Datatables::of($data)
             ->addColumn('id', function ($data){
                 return '<div class="custom-checkbox custom-control">
-                            <input type="checkbox" data-checkboxes="mygroup" name="id" value="'.$data->id.'" class="custom-control-input" id="checkbox-'.$data->id.'">
+                            <input type="checkbox" data-checkboxes="mygroup" name="id[]" value="'.$data->id.'" class="custom-control-input" id="checkbox-'.$data->id.'">
                             <label for="checkbox-'.$data->id.'" class="custom-control-label">&nbsp;</label>
                         </div>';
             })
@@ -53,7 +53,7 @@ class BlogController extends Controller
             ->addColumn('action', function ($data) {
                 $funsi_delete="deleteData($data->id,'$data->name')";
                 $button = [
-                    '<a data-original-title="Edit" href="'.route("dashboard.blog.update-show", ['id'=>$data->id]).'"
+                    '<a data-original-title="Edit" href="'.route("dashboard.blog.update", ['id'=>$data->id]).'"
                         class="btn btn-sm btn-warning m-1" data-toggle="tooltip" data-placement="top">
                         <i class="fas fa-edit"></i>
                     </a>',
@@ -62,9 +62,9 @@ class BlogController extends Controller
                             Action
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item has-icon" onclick="deleteOrUpdateSelected('.$data->id.',`draft`)" href="#"><i class="far fa-clock"></i> Draft</a>
-                            <a class="dropdown-item has-icon" onclick="deleteOrUpdateSelected('.$data->id.',`published`)" href="#"><i class="far fa-file"></i> Publish</a>
-                            <a class="dropdown-item has-icon" onclick="deleteOrUpdateSelected('.$data->id.',`archived`)" href="#"><i class="fas fa-archive"></i> Archive</a>
+                            <a class="dropdown-item has-icon" href="#"><i class="far fa-clock"></i> Draft</a>
+                            <a class="dropdown-item has-icon" href="#"><i class="far fa-file"></i> Publish</a>
+                            <a class="dropdown-item has-icon" href="#"><i class="fas fa-archive"></i> Archive</a>
                             <a class="dropdown-item has-icon" onClick="'.$funsi_delete.'" href="#"><i class="fas fa-trash"></i> Delete</a>
                         </div>
                     </div>',
@@ -78,10 +78,10 @@ class BlogController extends Controller
     public function count_data()
     {
         return response()->json([
-            'all' => Blog::get()->count(),
-            'draft' => Blog::where('status','draft')->count(),
-            'published' => Blog::where('status','published')->count(),
-            'archived' => Blog::where('status','archived')->count(),
+            'all' => User::get()->count(),
+            'draft' => User::where('status','draft')->count(),
+            'published' => User::where('status','published')->count(),
+            'archived' => User::where('status','archived')->count(),
         ], 200);
     }
 
@@ -102,60 +102,46 @@ class BlogController extends Controller
     {
         $data = [
             'edit'  => true,
-            'blog'  => Blog::find($id)->first()
+            'blog'  => User::find($id)->first()
         ];
         return view('app.dashboard.blog.form', $data);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'thumbnail' => 'mimes:jpeg,png,jpg,gif|max:5052',
-        ]);
-        $extension = $request->thumbnail->extension();
-        $request->thumbnail->storeAs('/public/upload/blog', Str::random(10).".".$extension);
-        $blog = Blog::create([
+        $blog = User::create([
             'user_id'   => Auth::guard('dashboard')->user()->id,
             'title'     => $request->title,
             'tags'      => $request->tags,
             'slug'      => Str::slug($request->title),
             'content'   => $request->content,
-            'thumbnail' => Str::random(10).".".$extension,
-            'status'    => $request->status
         ]);
         if($blog){
             return redirect(route('dashboard.blog'))->with('message', [
                 'status'    => 'success',
-                'message'   => 'New Blog has been saved!!'
+                'message'   => 'New User has been saved!!'
             ]);
         }
     }
 
     public function update(Request $request, $id)
     {
-        $blog                = Blog::findOrFail($id);
-        $blog->title         = $request->title;
-        $blog->tags          = $request->tags;
-        $blog->slug          = Str::slug($request->title);
-        $blog->content       = $request->content;
-        $blog->status        = $request->status;
-        if($request->thumbnail!=null){
-            $request->validate([
-                'thumbnail' => 'mimes:jpeg,png,jpg,gif|max:5052',
-            ]);
-            $extension = $request->thumbnail->extension();
-            $request->thumbnail->storeAs('/public/upload/blog', Str::random(10).".".$extension);
-        }
-        if($blog->save()){
+        $package                = User::findOrFail($id);
+        $package->title         = $request->title;
+        $package->tags          = $request->tags;
+        $package->slug          = Str::slug($request->title);
+        $package->content       = $request->content;
+
+        if($package->save()){
             return redirect(route('dashboard.blog'))->with('message', [
                 'status'    => 'success',
-                'message'   => 'Blog '.$request->title.' has been updated!!'
+                'message'   => 'User '.$request->title.' has been updated!!'
             ]);
         }
     }
 
     public function delete(Request $request){
-        if(Blog::findOrFail($request->id)->delete()){
+        if(User::findOrFail($request->id)->delete()){
             return response()->json([
                 'message'   => "success"
             ],200);
@@ -168,29 +154,11 @@ class BlogController extends Controller
 
     public function update_selected(Request $request)
     {
-        $data_id = explode(",", $request->id);
-        if(Blog::whereIn('id', $data_id)->update(['status'=>$request->status])){
-            return response()->json([
-                'message'   => "success"
-            ],200);
-        }else{
-            return response()->json([
-                'message'   => "something error"
-            ],400);
-        }
+
     }
 
     public function delete_selected(Request $request)
     {
-        $data_id = explode(",", $request->id);
-        if(Blog::whereIn('id', $data_id)->delete()){
-            return response()->json([
-                'message'   => "success"
-            ],200);
-        }else{
-            return response()->json([
-                'message'   => "something error"
-            ],400);
-        }
+
     }
 }

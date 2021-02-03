@@ -12,23 +12,23 @@
         </li>
 
         <li class="menu-header">Layanan</li>
-        <li class="{{ request()->is('dashboard/blogs') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('dashboard.blogs') }}"><i class="fas fa-news"></i> <span>Blogs</span></a>
+        <li class="{{ request()->is('dashboard/blog') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('dashboard.blog') }}"><i class="fas fa-newspaper"></i> <span>Blogs</span></a>
         </li>
 
         <li class="menu-header">Data Master</li>
-        <li class="{{ request()->is('dashboard/categories') ? 'active' : '' }}">
+        {{-- <li class="{{ request()->is('dashboard/categories') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('dashboard.categories') }}"><i class="fas fa-money-bill-wave"></i> <span>Categories</span></a>
-        </li>
-        <li class="{{ request()->is('dashboard/users') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('dashboard.users') }}"><i class="fas fa-users"></i> <span>Users</span></a>
+        </li> --}}
+        <li class="{{ request()->is('dashboard/user') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('dashboard.user') }}"><i class="fas fa-users"></i> <span>Users</span></a>
         </li>
 
         <li class="menu-header">Pengaturan</li>
         <li class="{{ request()->is('dashboard/profile') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('profile') }}"><i class="fas fa-user-circle"></i> <span>Profile</span></a>
+            <a class="nav-link" href="{{ route('dashboard.profile') }}"><i class="fas fa-user-circle"></i> <span>Profile</span></a>
         </li>
-        <li class="{{ request()->is('dashboard/pengaturan-website') ? 'active' : '' }}">
+        <li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <a class="nav-link" href="#" onclick="event.preventDefault();this.closest('form').submit();">

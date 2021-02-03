@@ -17,32 +17,11 @@ class CreateUserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
-            'email' => 'vyanaryprabowo9763@gmail.com',
-            'password' => Hash::make("vyanary11"),
-            'level_user' => 'admin',
-        ]);
-
-        Admin::create([
-            'user_id'       => $user->id,
-            'first_name'    => 'Vyan',
-            'last_name'     => 'Ary Pratama',
-            'phone'         => '081556780810',
-            'Address'       => 'Dsn Gunung Remuk RT 002 / RW 004 No. 124'
-        ]);
-
-        $user = User::create([
-            'email' => 'vyanary97@gmail.com',
-            'password' => Hash::make("vyanary11"),
-            'level_user' => 'member',
-        ]);
-
-        Customer::create([
-            'user_id'       => $user->id,
-            'first_name'    => 'Vyan',
-            'last_name'     => 'Ary Pratama',
-            'phone'         => '081556780810',
-            'Address'       => 'Dsn Gunung Remuk RT 002 / RW 004 No. 124'
+        User::create([
+            'first_name'    => 'Admin',
+            'last_name'     => 'Root Pixel',
+            'email'         => 'admin@rootpixel.com',
+            'password'      => Hash::make("123456"),
         ]);
     }
 }

@@ -15,9 +15,12 @@ mix.postCss('resources/css/dashboard/app.css', 'public/css/dashboard')
     // Dashboard Page User
     .postCss('resources/css/dashboard/user/user.css', 'public/css/dashboard/user')
     .js('resources/js/dashboard/user/user.js', 'public/js/dashboard/user')
-    // Dashboard Page Blog
+    // Dashboard Page Blog List
     .postCss('resources/css/dashboard/blog/blog.css', 'public/css/dashboard/blog')
     .js('resources/js/dashboard/blog/blog.js', 'public/js/dashboard/blog')
+    // Dashboard Page Blog Create
+    .postCss('resources/css/dashboard/blog/create.css', 'public/css/dashboard/blog')
+    .js('resources/js/dashboard/blog/create.js', 'public/js/dashboard/blog')
 
     .js('resources/js/dashboard/dashboard.js', 'public/js/dashboard')
     .js('resources/js/frontend/app.js', 'public/js/frontend')

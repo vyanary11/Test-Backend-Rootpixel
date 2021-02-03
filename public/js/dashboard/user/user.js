@@ -261,6 +261,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/dashboard/blog/create.css":
+/*!*************************************************!*\
+  !*** ./resources/css/dashboard/blog/create.css ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/frontend/app.css":
 /*!****************************************!*\
   !*** ./resources/css/frontend/app.css ***!
@@ -275,4 +288,4 @@ __webpack_require__.r(__webpack_exports__);
 /***/ })
 
 },
-0,[["./resources/js/dashboard/user/user.js","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/app.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/user/user.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/blog/blog.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/frontend/app.css","/js/dashboard/manifest","/js/dashboard/vendor"]]]);
+0,[["./resources/js/dashboard/user/user.js","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/app.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/user/user.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/blog/blog.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/dashboard/blog/create.css","/js/dashboard/manifest","/js/dashboard/vendor"],["./resources/css/frontend/app.css","/js/dashboard/manifest","/js/dashboard/vendor"]]]);

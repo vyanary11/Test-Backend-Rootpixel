@@ -1,43 +1,90 @@
-import Cleave from 'cleave.js';
 require('datatables');
 require('datatables.net-bs4');
 require('datatables.net-select-bs4');
-require('summernote')
+require('selectric');
 
 "use strict";
 
-const formModal = $('#form-modal');
-const formModalTittle = $('#form-modalLabel');
-const form = $('#form');
-const buttonSubmit = $('button[type="submit"]');
-const benefitContainer = $('#benefit-container');
+window.count_data = function () {
+    window.axios.get('blog/count_data/').then(function (response) {
+        const data = response.data;
+        document.getElementById("all").innerHTML = data.all;
+        document.getElementById("draft").innerHTML = data.draft;
+        document.getElementById("published").innerHTML = data.published;
+        document.getElementById("archived").innerHTML =data.archived;
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+
+
+count_data();
+
+$("[data-checkboxes]").each(function() {
+    var me = $(this),
+        group = me.data('checkboxes'),
+        role = me.data('checkbox-role');
+
+    me.change(function() {
+        var all = $('[data-checkboxes="' + group + '"]:not([data-checkbox-role="dad"])'),
+        checked = $('[data-checkboxes="' + group + '"]:not([data-checkbox-role="dad"]):checked'),
+        dad = $('[data-checkboxes="' + group + '"][data-checkbox-role="dad"]'),
+        total = all.length,
+        checked_length = checked.length;
+
+        if(role == 'dad') {
+            if(me.is(':checked')) {
+                all.prop('checked', true);
+            }else{
+                all.prop('checked', false);
+            }
+        }else{
+            if(checked_length >= total) {
+                dad.prop('checked', true);
+            }else{
+                dad.prop('checked', false);
+            }
+        }
+    });
+});
 
 const dataTable = $('#data-table').DataTable({
     processing: true,
     serverSide: true,
     responsive: true,
-    ajax: "/admin/paket-harga/data_table_server_side",
+    ajax: {
+        url: "/dashboard/blog/data_table_server_side",
+        data: function ( d ) {
+            d.status = $('#status').val();
+        }
+    },
     columns: [
         {
-            data: 'DT_RowIndex',
+            className: "text-center",
+            data: 'id',
             orderable: false,
             searchable: false
         },
         {
-            data: 'name',
-            name: 'name'
+            data: 'title',
+            name: 'title'
         },
         {
-            data: 'price',
-            name: 'price'
+            data: 'author',
+            name: 'author'
         },
         {
-            data: 'discount',
-            name: 'discount'
+            data: 'created_at',
+            name: 'created_at'
         },
         {
-            data: 'price_after_discount',
-            name: 'price_after_discount'
+            data: 'updated_at',
+            name: 'updated_at'
+        },
+        {
+            data: 'status',
+            name: 'status'
         },
         {
             searchable: false,
@@ -48,22 +95,107 @@ const dataTable = $('#data-table').DataTable({
     ]
 });
 
+window.filterDataTable = function (a) {
+    var element = document.getElementById('filter_active');
+    element.id = "";
+    element.classList.remove('active');
+    element.children[0].classList.remove('badge-white');
+    element.children[0].classList.add('badge-primary');
+    a.id = "filter_active";
+    a.classList.add("active");
+    a.children[0].classList.remove('badge-primary');
+    a.children[0].classList.add('badge-white');
+    $('#status').val($("#filter_active").attr("data-filter"));
+    dataTable.draw();
+}
+
 window.deleteData = function (id, name) {
     Swal.fire({
         allowEnterKey:true,
-        title: 'Yakin Ingin Menghapus ?',
-        text: "Akan menghapus data "+name+" ",
+        title: 'Are you sure want to delete ?',
+        text: "Will delete data "+name+" ",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Iya',
-        cancelButtonText: 'Tidak',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         showLoaderOnConfirm: true,
         preConfirm: async () => {
             try {
-                const response = await window.axios.delete('paket-harga/delete/', { data: { id: id }});
-                console.log(response);
+                const response = await window.axios.delete('blog/delete/', { data: { id: id }});
+                if (response.statusText!="OK") {
+                    throw new Error(response.statusText);
+                }
+                return await response;
+            } catch (error) {
+                Swal.showValidationMessage(
+                    `Error: ${error}`
+                );
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Success!',
+                'Data '+name+' has been deleted!',
+                'success'
+            );
+            count_data();
+            dataTable.ajax.reload(null, false);
+        }
+    })
+}
+
+$('#action-selected').on('change', function() {
+    const value = this.value;
+    if(this.value!=""){
+        var id = [];
+        $.each($("input[name='id']:checked"), function(){
+            id.push($(this).val());
+        });
+        if (id.length==0) {
+            Swal.fire(
+                'Error!',
+                'Select one data!',
+                'error'
+            );
+        } else {
+            deleteOrUpdateSelected(id.join(","), this.value);
+        }
+    }
+    $(this).prop('selectedIndex', 0).selectric('refresh');
+    $("#checkbox-all").prop('checked', false);
+});
+
+window.deleteOrUpdateSelected = function(id, value){
+    Swal.fire({
+        allowEnterKey:true,
+        title: 'Are you sure ?',
+        text: "Selected data will be change to "+value+" ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+            try {
+                var response = null;
+                if(value=="delete"){
+                    response = await window.axios.delete('blog/delete_selected/', {
+                        data: {
+                            id: id
+                        }
+                    });
+                }else{
+                    response = await window.axios.post('blog/update_selected/', {
+                        id: id,
+                        status : value
+                    });
+                }
                 if (response.statusText!="OK") {
                     throw new Error(response.statusText);
                 }
@@ -77,114 +209,21 @@ window.deleteData = function (id, name) {
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
+            if(value=="delete"){
+                Swal.fire(
+                    'Success!',
+                    'Data has been deleted!',
+                    'success'
+                );
+            }else{
+                Swal.fire(
+                    'Success!',
+                    'Data has been changed!',
+                    'success'
+                );
+            }
+            count_data();
             dataTable.ajax.reload(null, false);
-            Swal.fire(
-                'Berhasil!',
-                'Data berhasil dihapus!',
-                'success'
-            );
         }
     })
 }
-
-formModal.on('hidden.bs.modal', function (event) {
-    clearFormModal();
-    formModalTittle.html('Tambah Paket Harga');
-    form.attr('action','/admin/paket-harga/store');
-    buttonSubmit.text('Simpan');
-})
-
-window.clearFormModal = function () {
-    form.trigger('reset');
-    form.removeClass('was-validated');
-    $('#persen').attr('checked', true);
-    $('#nominal').attr('checked', false);
-    $('.benefit-plus').remove();
-}
-
-window.editFormModal = function (id) {
-    form.attr('action','/admin/paket-harga/update/'+id);
-    formModalTittle.html('Edit Paket Harga');
-    buttonSubmit.text('Update');
-    window.axios.get('paket-harga/update/'+id).then(function (response) {
-        const data = response.data;
-
-        $('input[name="name"]').val(data.name);
-        $('input[name="price"]').val(new Intl.NumberFormat(['id']).format(data.price));
-        $('input[name="discount"]').val(new Intl.NumberFormat(['id']).format(data.discount));
-        if (data.type_discount=="persen") {
-            $('#persen').attr('checked', true);
-            $('#nominal').attr('checked', false);
-        }else{
-            $('#persen').attr('checked', false);
-            $('#nominal').attr('checked', true);
-        }
-
-        for (let index = 0; index < data.details.length; index++) {
-            if(index==0){
-                $('.note-editable').html(data.details[index].detail);
-            }else{
-                const html = '<div class="benefit-plus mt-2">'+
-                                '<button type="button" onClick="removeBenefit(this)" class="btn btn-sm btn-danger text-white">'+
-                                    '<i class="fas fa-minus"></i> Hapus Benefit'+
-                                '</button>'+
-                                '<textarea name="benefit[]" rows="1" placeholder="Masukkan benefit" class="form-control summernote-simple" required>'+data.details[index].detail+'</textarea>'+
-                                '<div class="invalid-feedback">Wajib diisi !!</div>'+
-                            '</div>'
-                benefitContainer.append(html);
-                $(".summernote-simple").summernote({
-                    focus:true,
-                    dialogsInBody: true,
-                    toolbar: [
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ]
-                });
-            }
-        }
-
-        formModal.modal('show');
-    }).catch(function (error) {
-        console.log(error);
-    });
-}
-
-window.addBenefit = function () {
-    const html = '<div class="mt-2">'+
-                    '<button type="button" onClick="removeBenefit(this)" class="btn btn-sm btn-danger text-white">'+
-                        '<i class="fas fa-minus"></i> Hapus Benefit'+
-                    '</button>'+
-                    '<textarea name="benefit[]" rows="1" placeholder="Masukkan benefit" class="form-control summernote-simple" required></textarea>'+
-                    '<div class="invalid-feedback">Wajib diisi !!</div>'+
-                '</div>'
-    benefitContainer.append(html);
-    $(".summernote-simple").summernote({
-        focus:true,
-        dialogsInBody: true,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-        ]
-    });
-}
-
-window.removeBenefit = function (element) {
-    element.parentElement.remove();
-}
-
-new Cleave('.price', {
-    numeral: true,
-    numeralDecimalMark: ',',
-    delimiter: '.'
-});
-
-new Cleave('.discount', {
-    numeral: true,
-    numeralDecimalMark: ',',
-    delimiter: '.'
-});
-
-$(".summernote-simple").summernote({
-    dialogsInBody: true,
-    toolbar: [
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-    ]
-});
