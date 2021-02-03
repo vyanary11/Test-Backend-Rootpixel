@@ -11,6 +11,7 @@ class BlogController extends Controller
 {
     public function data_table_server_side()
     {
+
         $data = Blog::get();
         return Datatables::of($data)
             ->addIndexColumn()
