@@ -22,6 +22,7 @@ Auth::routes(['register' => false]);
 Route::group(['middleware' => ['auth:dashboard']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard.home');
     Route::get('/profile', [HomeController::class, 'profile'])->name('dashboard.profile');
+    Route::post('/profile/update', [HomeController::class, 'profile_update'])->name('dashboard.profile.update');
 
     Route::group(['prefix' => 'blog'], function () {
         Route::get('/', [BlogController::class, 'index'])->name('dashboard.blog');

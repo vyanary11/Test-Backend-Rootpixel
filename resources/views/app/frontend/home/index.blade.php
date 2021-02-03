@@ -24,10 +24,10 @@
                             <div class="mt-4">
                                 <div class="flex items-center">
                                     <div class="flex items-center">
-                                        <img class="h-10 object-cover rounded-full" src="https://images.unsplash.com/photo-1586287011575-a23134f797f9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=48&q=60" alt="Avatar">
                                         @php
                                             $user = $blog->user()->first();
                                         @endphp
+                                        <img class="h-10 object-cover rounded-full" src="{{asset('/storage/upload/user/'.$user->profile_picture)}}" alt="Avatar">
                                         @if ($user)
                                             <a href="#" class="mx-2 text-gray-700 dark:text-gray-200 font-semibold">{{$user->first_name." ".$user->last_name}}</a>
                                         @else

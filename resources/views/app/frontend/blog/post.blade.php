@@ -42,7 +42,15 @@
 
                 <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">{{$blog->title}}</a>
                 <p href="#" class="text-sm pb-8">
-                    Created By <a href="#" class="font-semibold hover:text-gray-800">{{$blog->user()->first()->first_name." ".$blog->user()->first()->last_name}}</a>, Created At {{date('d F Y', strtotime($blog->created_at))}}
+                    @php
+                        $user = $blog->user()->first();
+                    @endphp
+                    @if ($user)
+                        Created By <a href="#" class="font-semibold hover:text-gray-800">{{$user->first_name." ".$user->last_name}}</a>, Created At {{date('d F Y', strtotime($blog->created_at))}}
+                    @else
+                        Created By <a href="#" class="font-semibold hover:text-gray-800">Admin</a>, Created At {{date('d F Y', strtotime($blog->created_at))}}
+                    @endif
+
                 </p>
                 {!!$blog->content!!}
             </div>

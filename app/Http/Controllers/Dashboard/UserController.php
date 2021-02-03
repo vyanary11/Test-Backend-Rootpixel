@@ -55,7 +55,7 @@ class UserController extends Controller
     {
         $data = [
             'edit'  => true,
-            'user'  => User::find($id)->first()
+            'user'  => User::findOrFail($id)
         ];
         return view('app.dashboard.user.form', $data);
     }
