@@ -20,14 +20,16 @@ $ php artisan migrate --seed
 
 
 ## How To Use
-- For Frontend
+- For Frontend :
+
 Access base_url example : http://127.0.0.1/test_backend_rootpixel/public or http://127.0.0.1:8001 for php artisan serve
 
-- For Page Admin Dashboard
+- For Page Admin Dashboard :
+
 Access base_url with "dashboard" example : http://127.0.0.1/test_backend_rootpixel/public/dashboard or http://127.0.0.1:8001/dashboard for php artisan serve
 
 ## Credential
-- Email
+- Email :
 admin@rootpixel.com
-- Password
+- Password :
 123456
