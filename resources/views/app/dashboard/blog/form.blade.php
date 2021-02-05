@@ -22,7 +22,7 @@
                         </div>
                         <div class="form-group">
                             <label>Tags</label>
-                            <input type="text" name="tags" class="form-control inputtags @error('tags') is-invalid @enderror" value="{{$blog->tags}}" required>
+                            <input type="text" name="tags" class="form-control inputtags @error('tags') is-invalid @enderror" @if ($edit) value="{{$blog->tags}}" @else value="{{old('tags')}}" @endif required>
                             <span class="invalid-feedback" role="alert">
                                 <strong>@error('tags') {{ $message }} @else The tags field is required !! @enderror</strong>
                             </span>
@@ -47,7 +47,7 @@
                                             <strong>@error('thumbnail') {{ $message }} @else The thumbnail field is required !! @enderror</strong>
                                         </span>
                                     </div>
-                                    <img class="img-thumbnail mt-2" @if ($edit) src="{{asset('/storage/upload/blog/'.$blog->thumbnail)}}" @else src="{{asset('/storage/upload/blog/default.jpg')}}" @endif alt="{{$blog->slug}}">
+                                    <img class="img-thumbnail mt-2" @if ($edit) src="{{asset('/storage/upload/blog/'.$blog->thumbnail)}}" alt="{{$blog->slug}}" @else src="{{asset('/storage/upload/blog/default.jpg')}}" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="status">Status</label>

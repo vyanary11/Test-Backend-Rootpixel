@@ -14,9 +14,9 @@ class BlogController extends Controller
     public function data_table_server_side()
     {
         if(request()->status==null){
-            $data = Blog::get();
+            $data = Blog::select('*');
         }else{
-            $data = Blog::where('status', request()->status)->get();
+            $data = Blog::where('status', request()->status)->select('*');
         }
         return Datatables::of($data)
             ->addColumn('id', function ($data){
