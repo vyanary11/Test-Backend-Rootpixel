@@ -102,7 +102,7 @@ class BlogController extends Controller
     {
         $data = [
             'edit'  => true,
-            'blog'  => Blog::findOrFail('id',$id)
+            'blog'  => Blog::findOrFail($id)
         ];
         return view('app.dashboard.blog.form', $data);
     }
